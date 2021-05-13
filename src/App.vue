@@ -1,46 +1,61 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <!-- <HelloWorld msg="Привет VueJS!" /> -->
-    <div v-if="flag">
-      <Counter />
-    </div>
-    <main v-else>
-      <Counter />
+    <header class="header">
+      My personal costs
+    </header>
+    <main>
+      <PaymentForm />
+      <PaymentsList :items="paymentsList" />
     </main>
-    <button @click="onChange">Change</button>
   </div>
 </template>
 
 <script>
-import Counter from './components/Counter.vue'
+import PaymentsList from './components/PaymentsList'
+import PaymentForm from './components/PaymentForm'
 
 export default {
   name: 'App',
   components: {
-    Counter
+    PaymentsList,
+    PaymentForm
   },
   data () {
     return {
-      flag: true
+      paymentsList: [
+        {
+          date: '13.05.2021',
+          category: 'Education',
+          price: 123
+        },
+        {
+          date: '12.05.2021',
+          category: 'Education',
+          price: 456
+        },
+        {
+          date: '11.05.2021',
+          category: 'Education',
+          price: 789
+        },
+        {
+          date: '10.05.2021',
+          category: 'Education',
+          price: 0
+        }
+      ]
     }
   },
   methods: {
-    onChange () {
-      console.log('Changed!')
-      this.flag = !this.flag
+    onDataAdded (data) {
+      this.paymentsList.push(data)
     }
-  }
+  },
 }
 </script>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+<style lang="scss" module>
+.header {
+  color: red;
 }
 </style>
