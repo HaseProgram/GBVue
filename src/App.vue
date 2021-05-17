@@ -5,7 +5,7 @@
     </header>
     <main>
       <PaymentForm />
-      <PaymentsList :items="paymentsList" />
+      <PaymentsList />
     </main>
   </div>
 </template>
@@ -13,6 +13,8 @@
 <script>
 import PaymentsList from './components/PaymentsList'
 import PaymentForm from './components/PaymentForm'
+
+import { mapActions } from 'vuex'
 
 export default {
   name: 'App',
@@ -22,35 +24,22 @@ export default {
   },
   data () {
     return {
-      paymentsList: [
-        {
-          date: '13.05.2021',
-          category: 'Education',
-          price: 123
-        },
-        {
-          date: '12.05.2021',
-          category: 'Education',
-          price: 456
-        },
-        {
-          date: '11.05.2021',
-          category: 'Education',
-          price: 789
-        },
-        {
-          date: '10.05.2021',
-          category: 'Education',
-          price: 0
-        }
-      ]
     }
   },
   methods: {
+    // ...mapActions([
+    //   'fetchData'
+    // ]),
+    ...mapActions({
+      fetchListData: 'fetchData'
+    }),
     onDataAdded (data) {
       this.paymentsList.push(data)
     }
   },
+  mounted () {
+    this.fetchListData()
+  }
 }
 </script>
 
