@@ -1,7 +1,7 @@
 <template>
   <div class="hello">
-    fib (<input v-model.number="operand1" />)
-    fib (<input v-model.number="operand2" />)
+    <input v-model.number="operand1" />
+    <input v-model.number="operand2" />
     = {{ result }}
     <div>
       <button
@@ -10,57 +10,45 @@
       @click="calculate(op)"
       >{{ op }}</button>
     </div>
-
-    <div class="error" v-if="error">
-      {{ error }}
-    </div>
-
-    <div v-if="result < 0">
-      Получилось отрицательное число
-    </div>
-    <div v-else-if="result <= 1000">
-      Результат леждит в пределах 0..1000
-    </div>
-    <div v-else-if="result <= 100000">
-      Результат леждит в пределах 1000..100000
-    </div>
-    <div v-else>
-      Результат слишком большой!
-    </div>
-    <div class="logs">
-      <div v-for="(log, id) in logs" :key="id">{{ log }}</div>
+    <label><input type="checkbox" v-model="showvk" />Отобразить экранную клавиатуру</label>
+    <div v-if="showvk">
+      Виртуальная клавиатура
+      <button v-for="btn in 10" :key="btn" @click="inputNum(btn - 1)">{{ btn - 1 }}</button>
+      <button @click="eraseOne">E</button>
+      <br><br>
+      <label><input type="radio" value="1" v-model="operch" />Операнд 1</label>
+      <label><input type="radio" value="2" v-model="operch" />Операнд 2</label>
     </div>
   </div>
 </template>
 
 <script>
-import Vue from 'vue'
 export default {
   data: () => ({
     operand1: 0,
     operand2: 0,
     result: 0,
-    error: '',
     operations: ['+', '-', '/', '*'],
-    logs: {}
+    showvk: false,
+    operch: ''
   }),
   props: {
   },
   methods: {
-    fib (n) {
-      return n <= 1 ? n : this.fib(n - 1) + this.fib(n - 2)
+    inputNum (i) {
+      const { operch } = this
+      const input = operch === '1' ? 'operand1' : 'operand2'
+      this[input] = +(this[input] += String(i))
+    },
+    eraseOne () {
+      const { operch } = this
+      const input = operch === '1' ? 'operand1' : 'operand2'
+      // this[input] = Math.trunc(this[input] / 10)
+      this[input] = +String(this[input]).slice(0, -1)
     },
     calculate (op) {
-      const operand1 = this.fib1
-      const operand2 = this.fib2
-      Vue.set(this.logs, Date.now(), `${operand1}${op}${operand2}=?`)
-
-      if (op === '/' && operand2 === 0) {
-        this.error = 'Division by zero!'
-        return
-      }
-
-      event.preventDefault()
+      const operand1 = this.operand1
+      const operand2 = this.operand2
 
       const calcOperations = {
         '+': () => operand1 + operand2,
@@ -81,14 +69,6 @@ export default {
     },
     mul () {
       this.result = this.operand1 * this.operand2
-    }
-  },
-  computed: {
-    fib1 () {
-      return this.fib(this.operand1)
-    },
-    fib2 () {
-      return this.fib(this.operand2)
     }
   },
   watch: {

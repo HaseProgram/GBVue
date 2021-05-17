@@ -1,24 +1,17 @@
 <template>
   <div id="app">
     <img alt="Vue logo" src="./assets/logo.png">
-    <!-- <HelloWorld msg="Привет VueJS!" /> -->
-    <div v-if="flag">
-      <Counter />
-    </div>
-    <main v-else>
-      <Counter />
-    </main>
-    <button @click="onChange">Change</button>
+    <HelloWorld msg="Привет VueJS!" />
   </div>
 </template>
 
 <script>
-import Counter from './components/Counter.vue'
+import HelloWorld from './components/HelloWorld.vue'
 
 export default {
   name: 'App',
   components: {
-    Counter
+    HelloWorld
   },
   data () {
     return {
