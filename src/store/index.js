@@ -23,28 +23,15 @@ export default new Vuex.Store({
     fetchData ({ commit }) {
       return new Promise((resolve, reject) => {
         setTimeout(() => {
-          resolve([
-            {
+          const items = []
+          for (let i = 1; i < 105; i++) {
+            items.push({
               date: '13.05.2021',
               category: 'Education',
-              price: 123
-            },
-            {
-              date: '12.05.2021',
-              category: 'Education',
-              price: 456
-            },
-            {
-              date: '11.05.2021',
-              category: 'Education',
-              price: 789
-            },
-            {
-              date: '10.05.2021',
-              category: 'Education',
-              price: 0
-            }
-          ])
+              price: i
+            })
+          }
+          resolve(items)
         }, 2000)
       })
         .then(res => {
