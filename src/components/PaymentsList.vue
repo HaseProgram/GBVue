@@ -12,6 +12,8 @@
       :cur="page"
       @paginate="onPgaginate"
     />
+    <button @click="showPaymentsForm">Show Payments Form</button>
+    <button @click="closePaymentsForm">Close Payments Form</button>
   </div>
 </template>
 
@@ -34,6 +36,12 @@ export default {
     },
     onPgaginate (p) {
       this.page = p
+    },
+    showPaymentsForm () {
+      this.$modal.show('PaymentForm')
+    },
+    closePaymentsForm () {
+      this.$modal.close()
     }
   },
   computed: {
