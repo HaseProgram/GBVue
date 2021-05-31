@@ -18,7 +18,7 @@
 
 <script>
 
-import { mapActions } from 'vuex'
+// import { mapActions } from 'vuex'
 
 export default {
   name: 'App',
@@ -34,9 +34,6 @@ export default {
     // ...mapActions([
     //   'fetchData'
     // ]),
-    ...mapActions({
-      fetchListData: 'fetchData'
-    }),
     onDataAdded (data) {
       this.paymentsList.push(data)
     },
@@ -48,7 +45,7 @@ export default {
     }
   },
   mounted () {
-    this.fetchListData()
+    // this.fetchListData(2)
     this.$modal.EventBus.$on('show', this.onShown)
     this.$modal.EventBus.$on('close', this.onClose)
   },

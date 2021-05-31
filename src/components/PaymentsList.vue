@@ -7,7 +7,7 @@
       {{ item }}
     </div>
     <Pagination
-      :length="getPaymentsList.length"
+      :length="12"
       :n="n"
       :cur="page"
       @paginate="onPgaginate"
@@ -19,7 +19,7 @@
 
 <script>
 import Pagination from './Pagination'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 export default {
   components: {
     Pagination
@@ -27,15 +27,19 @@ export default {
   data () {
     return {
       page: 1,
-      n: 10
+      n: 3
     }
   },
   methods: {
+    ...mapActions({
+      fetchListData: 'fetchData'
+    }),
     doSomething () {
       console.log(this.items)
     },
     onPgaginate (p) {
       this.page = p
+      this.fetchListData(p)
     },
     showPaymentsForm () {
       this.$modal.show('PaymentForm')
@@ -52,6 +56,9 @@ export default {
       const { n, page } = this
       return this.getPaymentsList.slice(n * (page - 1), n * (page - 1) + n)
     }
+  },
+  mounted () {
+    this.fetchListData(this.page)
   }
 }
 </script>
