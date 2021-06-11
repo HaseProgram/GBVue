@@ -36,6 +36,9 @@ export default new Vuex.Store({
       state.paymentsList = payload
     },
     addPaymentsListData (state, payload) {
+      if (!payload) {
+        return
+      }
       const newUniqObjs = payload.filter(obj => {
         return state.paymentsListIDS.indexOf(obj.id) < 0
       })

@@ -1,42 +1,49 @@
 <template>
   <div>
-    <div
+    <!-- <div
       v-for="(item, index) in currentElements"
       :key="index"
     >
       {{ item }}
-    </div>
-    <Pagination
-      :length="12"
+    </div> -->
+    <v-data-table
+      :headers="tableHeaders"
+      :items="listWithIndex"
+    >
+    </v-data-table>
+    <!-- <Pagination
+      :length="13"
       :n="n"
       :cur="page"
       @paginate="onPgaginate"
-    />
-    <button @click="showPaymentsForm">Show Payments Form</button>
-    <button @click="closePaymentsForm">Close Payments Form</button>
+    /> -->
   </div>
 </template>
 
 <script>
-import Pagination from './Pagination'
+// import Pagination from './Pagination'
 import { mapGetters, mapActions } from 'vuex'
+
 export default {
   components: {
-    Pagination
+    // Pagination
   },
   data () {
     return {
       page: 1,
-      n: 3
+      n: 3,
+      tableHeaders: [
+        { text: '#', value: 'index' },
+        { text: 'Date', value: 'date' },
+        { text: 'Category', value: 'category' },
+        { text: 'Value', value: 'value' }
+      ]
     }
   },
   methods: {
     ...mapActions({
       fetchListData: 'fetchData'
     }),
-    doSomething () {
-      console.log(this.items)
-    },
     onPgaginate (p) {
       this.page = p
       this.fetchListData(p)
@@ -52,6 +59,12 @@ export default {
     ...mapGetters([
       'getPaymentsList'
     ]),
+    listWithIndex () {
+      return this.getPaymentsList.map((obj, i) => {
+        obj.index = i + 1
+        return obj
+      })
+    },
     currentElements () {
       const { n, page } = this
       return this.getPaymentsList.slice(n * (page - 1), n * (page - 1) + n)
